@@ -3,7 +3,9 @@ This is a rewrite of the current state of [ProjectCTR](https://github.com/3DSGuy
 
 ## Roadmap
 
-## Roadmap
+✅ => Ready for testing  
+🟨 => In progress  
+❌ => Not started  
 
 ├── accessdesc.rs ❌  
 ├── aes_keygen.rs ❌  
@@ -13,9 +15,9 @@ This is a rewrite of the current state of [ProjectCTR](https://github.com/3DSGuy
 ├── cia.rs ❌  
 ├── cia_read.rs ❌  
 ├── code.rs ❌  
-├── crr.rs ❌  
+├── crr.rs 🟨  
 ├── crypto.rs ❌  
-├── ctr_utils.rs ❌  
+├── ctr_utils.rs 🟨  
 ├── desc ✅  
 │   ├── desc.rs ✅  
 │   ├── dev_sigdata.rs ✅  
@@ -59,6 +61,6 @@ This is a rewrite of the current state of [ProjectCTR](https://github.com/3DSGuy
 ├── tmd.rs ❌  
 ├── tmd_read.rs ❌  
 ├── types.rs ✅  
-├── user_settings.rs ❌  
-├── utils.rs ❌  
+├── user_settings.rs 🟨  
+├── utils.rs 🟨  
 └── yaml_parser.rs ❌  
