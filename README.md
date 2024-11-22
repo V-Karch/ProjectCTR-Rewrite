@@ -58,7 +58,7 @@ This is a rewrite of the current state of [ProjectCTR](https://github.com/3DSGuy
 ├── tmd_build.rs ❌  
 ├── tmd.rs ❌  
 ├── tmd_read.rs ❌  
-├── types.rs ❌  
+├── types.rs ✅  
 ├── user_settings.rs ❌  
 ├── utils.rs ❌  
 └── yaml_parser.rs ❌  
