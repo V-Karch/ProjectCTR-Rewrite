@@ -15,7 +15,7 @@ This is a rewrite of the current state of [ProjectCTR](https://github.com/3DSGuy
 ├── cia.rs ❌  
 ├── cia_read.rs ❌  
 ├── code.rs ❌  
-├── crr.rs 🟨  
+├── crr.rs ✅  
 ├── crypto.rs ❌  
 ├── ctr_utils.rs 🟨  
 ├── desc ✅  
