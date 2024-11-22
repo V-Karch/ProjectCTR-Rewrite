@@ -1,3 +1,4 @@
+mod pki;
 mod desc;
 
 fn main() {
