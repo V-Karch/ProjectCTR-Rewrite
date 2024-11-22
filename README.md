@@ -29,7 +29,7 @@ This is a rewrite of the current state of [ProjectCTR](https://github.com/3DSGuy
 ├── exheader_read.rs ❌  
 ├── keyset.rs ❌  
 ├── lib.rs ❌  
-├── makerom.rs ❌  
+├── makerom.rs ❌ (contains int main() {})  
 ├── ncch_build.rs ❌  
 ├── ncch.rs ❌  
 ├── ncch_logo.rs ❌  
