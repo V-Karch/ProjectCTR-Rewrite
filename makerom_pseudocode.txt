@@ -1,0 +1,88 @@
+# Include necessary libraries and modules
+# - lib.h: Contains core functionality
+# - ncch_build.h, ncsd_build.h, cia_build.h: Specific build modules
+
+# Main function
+function main(argc, argv):
+    # Allocate memory for user settings
+    set = allocate_memory_for_user_settings()
+    if set is NULL:
+        print_error("Not enough memory")
+        return -1
+
+    # Initialize user settings and random number generator
+    initialize_user_settings(set)
+    initialize_random_generator()
+
+    # Parse command-line arguments
+    result = parse_arguments(argc, argv, set)
+    if result < 0:
+        goto cleanup
+
+    # Retrieve settings from RSF file
+    result = get_rsf_settings(set)
+    if result < 0:
+        goto cleanup
+
+    # Handle NCCH building or file validation
+    if not set.ncch.buildNcch0:
+        if set.common.workingFileType == infile_ncch:
+            # Validate and read content file
+            if not file_exists(set.common.contentPath[0]):
+                print_error("Failed to open Content 0")
+                goto cleanup
+            
+            fileSize = get_file_size(set.common.contentPath[0])
+            ncch0 = open_file(set.common.contentPath[0])
+            hdr = read_ncch_header(ncch0)
+            calcSize = calculate_ncch_size(hdr)
+
+            if calcSize != fileSize:
+                print_error("Content 0 is corrupt")
+                close_file(ncch0)
+                goto cleanup
+
+            set.common.workingFile = read_file_to_buffer(ncch0, fileSize)
+            close_file(ncch0)
+        else:
+            # Validate and read generic working file
+            if not file_exists(set.common.workingFilePath):
+                print_error("Failed to open working file")
+                goto cleanup
+
+            size = get_file_size(set.common.workingFilePath)
+            aligned_size = align_to_boundary(size, 16)
+            set.common.workingFile = read_file_to_buffer(set.common.workingFilePath, aligned_size)
+
+    else:
+        # Build NCCH
+        result = build_ncch(set)
+        if result < 0:
+            print_error("Failed to build NCCH")
+            goto cleanup
+
+    # Build output file based on format
+    if set.common.outFormat == CCI:
+        result = build_cci(set)
+        if result < 0:
+            print_error("Failed to build CCI")
+            goto cleanup
+    elif set.common.outFormat == CIA:
+        result = build_cia(set)
+        if result < 0:
+            print_error("Failed to build CIA")
+            goto cleanup
+    elif set.common.outFormat in [CXI, CFA]:
+        output_file = open_file_for_writing(set.common.outFileName)
+        if output_file is NULL:
+            print_error("Failed to create output file")
+            result = FAILED_TO_CREATE_OUTFILE
+            goto cleanup
+
+        write_buffer_to_file(set.common.workingFile.buffer, output_file)
+        close_file(output_file)
+
+cleanup:
+    # Free resources
+    free_user_settings(set)
+    return result
